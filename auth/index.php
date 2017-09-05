@@ -1,4 +1,5 @@
 <?php
+namespace Pas;
 /**
  * Created by PhpStorm.
  * User: LLG
@@ -6,31 +7,8 @@
  * Time: 23:03
 
  */
-require_once "../CoreService.php";
-$Conn=CoreService::GetInstance();
-
-$result=$Conn->QuerySQL("SELECT * FROM `tokens` WHERE `token`='{$_GET['token']}';");
-if($result)
-{
-
-    $result=mysqli_fetch_array($result);
-    //echo json_encode($result);
-
-    //var_dump($result);
-    if($result['token']==$_GET['token']&&time()<strtotime($result['expireTime']))
-    {
-        echo "Auth: 1";
-    }else
-    {
-        echo "Auth: 0";
-    }
-}else
-{
-    echo "Auth: -1";
-}
-
-
-
-
-
+include "Authenticator.php";
+use Pas\Authenticator;
+$statusCode=Authenticator::auth($_GET['token']);
+echo "Auth: ".$statusCode;
 ?>

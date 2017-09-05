@@ -71,7 +71,15 @@
                      Access Granted.
                     </h3>
                     <h3 class="m-b-lg font-thin">
-                        <a class="btn btn-lg btn-success"><i class="fa fa-globe"></i> 开始浏览网络</a>
+                        <a class="btn btn-lg btn-success" href="<?php
+                        if(isset($_SESSION['ref'])) {
+                            echo $_SESSION['ref'];
+                        }else{
+                            echo "#";
+                        }
+                        ?>"><i class="fa fa-globe"></i> 开始浏览之前的页面</a>
+
+                        <a
                     </h3>
                 </div>
 

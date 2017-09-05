@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -64,24 +67,49 @@
 
     <div class="b-t b-light dker animated fadeInRight">
         <div class="container m-t-xl" >
+
+            <?php
+            //use \Pas\Core\CoreService;
+            if(isset($_GET['url'])) {
+                $_SESSION['ref'] = $_GET['url'];
+            }
+            include "../auth/Authenticator.php";
+            use \Pas\Authenticator;
+            if(isset($_GET['mac'])){
+                $token=Authenticator::authMAC($_GET['mac']);
+                //echo "<script>alert('TOKEN: ".$token."');</script>";
+
+                //判断token有效性
+                if($token=="-1"){
+
+                ?>
             <div class="row">
                 <div class="col-sm-12">
                     <h3 id="timerText" class="font-thin m-b-lg" style="display: none">广告剩余 <span id="t_s"></span></h3>
                     <p id="preContinue" class="h5 m-b-lg l-h-1x">
-
+                        <a class='btn btn-lg btn-danger' href="../recommendation/index.php" >
+                            <i class='fa fa-thumbs-o-up'></i> 推荐商户</a>
 <a class='btn btn-lg btn-dark' onclick="startTimer();" >
 <i class='fa fa-arrow-circle-right'></i> 点击继续</a>
                     </p>
                     <p id="continue" class="h5 m-b-lg l-h-1x" style="display: none">
                         <?php
                         echo "
-<a class='btn btn-lg btn-dark' href='GrantPermission.php?mac=".$_GET["mac"]."&url=".$_GET["url"]."&gwip=".$_GET['gw_address']."&gwport=".$_GET['gw_port']."&cip=".$_GET['ip']."'>
+<a class='btn btn-lg btn-dark' href='grantPermission.php?mac=".$_GET["mac"]."&url=".$_GET["url"]."&gwip=".$_GET['gw_address']."&gwport=".$_GET['gw_port']."&cip=".$_GET['ip']."'>
 <i class=\"fa fa-connectdevelop\"></i> 点击获取网络连接权限</a>";
                         ?>
                     </p>
 
                 </div>
             </div>
+            <?php
+                }else{
+                    echo "<h3><i class='fa fa-globe'></i> 正在切换漫游节点...</h3> <h5>如本页面停留超过3秒，请手动 <a href='"."http://".$_GET['gw_address'].":".$_GET['gw_port']."/wifidog/auth?token=".$token ."'>点击此处继续</a> 。</h5><h3> </h3>";
+                    header("http://".$_GET['gw_address'].":".$_GET['gw_port']."/wifidog/auth?token=".$token);
+                    echo "<script>location.href('"."http://".$_GET['gw_address'].":".$_GET['gw_port']."/wifidog/auth?token=".$token."');</script>";
+                }
+            }
+            ?>
         </div>
     </div>
 
@@ -283,6 +311,7 @@
 
     function getRTime(){
         if(flag) {
+
             var NowTime = new Date();
             var t =  2000-(NowTime.getTime()-EndTime.getTime());
             /*var d=Math.floor(t/1000/60/60/24);

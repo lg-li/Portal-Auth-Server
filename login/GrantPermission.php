@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿<?php
+
+/**
+ * Portal Authentication.
+ * Creator: LLG
+ * Date: 2017/6/25
+ * Time: 22:47
+ */
+include "../core/CoreService.php";
+
+
+?>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8" />
@@ -37,42 +49,37 @@
 </header>
 <!-- / header -->
 
- <div class="b-t b-light dker animated fadeInRight">
-        <div class="container m-t-xl wrapper-lg" >
-<?php
-/**
- * Portal Authentication.
- * Creator: LLG
- * Date: 2017/5/25
- * Time: 22:47
- */
-
-require_once "../CoreService.php";
-
-echo "<h2><i class='fa fa-clock-o'></i>正在等待服务器响应</h2>";
-$Conn=CoreService::GetInstance();
-$ExpireTime=date("Y/m/d H:i:s", strtotime("+4 hours"));
-$token=md5("1d8qwf".sha1("76jy9rt6br".$ExpireTime."3uf6ej")."4feh78k");
-$result=$Conn->QuerySQL("INSERT INTO 
+<div class="b-t b-light dker animated fadeInRight">
+    <div class="container m-t-xl wrapper-lg" >
+        <?php
+        use \Pas\CoreService;
+        echo "<h2><i class='fa fa-clock-o'></i>正在等待服务器响应</h2>";
+        $Conn=CoreService::GetInstance();
+        date_default_timezone_set("Asia/Chongqing");
+        $ExpireTime=date("Y/m/d H:i:s", strtotime("+4 hours"));
+        $token=md5("1d8qwf".sha1("76jy9rt6br".$ExpireTime."3uf6ej")."4feh78k");
+        $result=$Conn->QuerySQL("INSERT INTO 
 `tokens` (`token`,`mac`,`ip`,`expireTime`)
  VALUES
 ('$token','{$_GET['mac']}','{$_GET['cip']}','$ExpireTime');");
-echo "Confirm Authentication";
-if($result)
-{
-     echo "<h5>请稍候...</h5><h5>如本页面停留超过5秒，请手动 <a href='"."http://".$_GET['gwip'].":".$_GET['gwport']."/wifidog/auth?token=".$token ."'>点击此处重试</a> 。</h5>";
-     echo "<script>location.href('http://".$_GET['gwip'].":".$_GET['gwport']."/wifidog/auth?token=".$token."');</script>";
-     header("http://".$_GET['gwip'].":".$_GET['gwport']."/wifidog/auth?token=".$token);
 
-}
-else
-{
-    var_dump($result);
-    echo "<h5>出现错误，请返回上一级页面。</h5>";
-}
 
-?>
-</div>
+        echo "Confirm Authentication";
+        if($result)
+        {
+            echo "<h5>请稍候...</h5><h5>如本页面停留超过5秒，请手动 <a href='"."http://".$_GET['gwip'].":".$_GET['gwport']."/wifidog/auth?token=".$token ."'>点击此处重试</a> 。</h5>";
+            echo "<script>location.href('http://".$_GET['gwip'].":".$_GET['gwport']."/wifidog/auth?token=".$token."');</script>";
+            header("http://".$_GET['gwip'].":".$_GET['gwport']."/wifidog/auth?token=".$token);
+
+        }
+        else
+        {
+            var_dump($result);
+            echo "<h5>出现错误，请返回上一级页面。</h5>";
+        }
+
+        ?>
+    </div>
 </div>
 </body>
 </html>

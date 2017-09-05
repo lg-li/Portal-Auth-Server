@@ -1,4 +1,6 @@
 <?php
+namespace Pas;
+use \MySqli;
 /**
  * Portal Authentication.
  * Creator: LLG
@@ -9,6 +11,7 @@
 /*
  * 数据库连接
  */
+date_default_timezone_set("Asia/Chongqing");
 define("DBAddress","localhost");
 define("DBPort","3306");
 define("DBName","pas");
@@ -84,5 +87,7 @@ class CoreService
 
 
 }
+
+
 
 ?>

@@ -5,12 +5,13 @@
  * Date: 2017/5/22
  * Time: 14:35
  */
-require_once "../CoreService.php";
+namespace Pas;
+include "Recorder.php";
 
 
-$Conn=CoreService::GetInstance();
-$CurrentTime=date("Y/m/d H:i:s", time());
-$Conn->QuerySQL("INSERT INTO `pingLogs` (`time`) VALUE ('$CurrentTime');");
-
-echo 'Pong';
+if(Recorder::ping()) {
+    echo 'Pong';
+}else{
+    echo 'Pong';
+}
 ?>
