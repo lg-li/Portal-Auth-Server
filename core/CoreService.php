@@ -9,14 +9,15 @@ use \MySqli;
  */
 
 /*
- * 数据库连接
+ * 数据库连接 edit to your own database connection!
  */
 date_default_timezone_set("Asia/Chongqing");
 define("DBAddress","localhost");
 define("DBPort","3306");
 define("DBName","pas");
 define("DBUser","pas");
-define("DBPassword","lilingen");
+define("DBPassword","pas");
+
 
 class CoreService
 {
